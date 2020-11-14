@@ -1,15 +1,15 @@
-""" модуль для отримання даних про товарообіг
+""" модуль для отримання даних про постачання та вивід їх на екран
 """
 
 
 def get_dovidnik():
     """ повертає вміст файла 'dovidnik.txt` у вигляді списка
 
- 	Returns:
+    Returns:
         'from_file' - список рядків файла
     """
+
     from_file = [
-     
      "10;План розрахунків  бухгалтерського обліку підприємств;40" , 
      "20;ППП УЗПИКС;900",
      "30;ППП УТЕП;900",
@@ -17,23 +17,56 @@ def get_dovidnik():
      "50;ППП УФРО;1245",
      "60;АРМ бухгалтера матеріально-технічного відділу відділу;500", 
      "70;АРМ бухгалтера фінансового відділу;500" ,
-     "80;ППП Облік договорів;150",  
-     ]
-  
-    #Накопичувач клієнтів
-    clients_list = []
-    
+     "80;ППП Облік договорів;150",
+    ]
+
+    # накопичувач клієнтів
+    dovidnik_list = []
+
     for line in from_file:
-        line_list = line.split(";")
-        clients_list.append((line_list))
+        line_list = line.split(';')
+        dovidnik_list.append((line_list))
+
+    return dovidnik_list
+
+def get_orders():
+
+        from_file = [
+        "КНТЕУ;202;10;10",               
+        "КНЕУ;203;20;10",                  
+        "КНУ;205;30;5",                   
+        "КНТЕУ;207;40;10",            
+        "КНЕУ;211;20;5",                   
+        "КНУ;204;10;5",                                                                                    
+        "КНТЕУ;206;30;5",                                                                                        
+        "КНЕУ;210;50;3",                   
+        "КНУ;212;60;4",
+        "КНТЕУ;213;70;5",
+    ]
+
+def show_dovidnik(dovidnik):
+    """виводить список клієнтів
+
+    Args:
+        dovidnik (list): список клієнтів
+    """
+
+    # задати інтервал виводу
+    client_code_from = input("З якого кода клієнта? ")
+    client_code_to   = input("По який код клієнта? ")
     
-    return from_file
+    # накопичує кількість виведених рядків
+    kol_lines = 0
 
+    for client in dovidnik:
+        if  client_code_from  <= client[0] <= client_code_to:
+            print("код: {:3} назва: {:16} вартість: {:20}".format(client[0], client[1], client[2]))
+            kol_lines += 1
 
-def get_dovidnik():
-    pass
+    # перевірити чи був вивід хоча б одного рядка
+    if kol_lines == 0:
+        print("По вашому запиту клієнтів не знайдено!")
+    
 
-dovidnik_list = get_dovidnik()
-
-for line in dovidnik_list:
-    print(line)
+dovidnik = get_dovidnik()
+show_dovidnik(dovidnik)

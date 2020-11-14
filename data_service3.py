@@ -1,73 +1,50 @@
 """ модуль для отримання даних про постачання та вивід їх на екран
 """
 
+def get_dovidnik():
+    """ повертає вміст файла 'dovidnik.txt` у вигляді списка
+    """
 
+    with open('./data/dovidnik.txt', encoding="utf8") as dovidnik_file:
+        from_file = dovidnik_file.readlines()
 
-def get_dovidnik1():
-    
-    from_dovidnik1 = [
-    
-  "КНТЕУ;202;10;10",               
-  "КНЕУ;203;20;10",                  
-  "КНУ;205;30;5",                   
-  "КНТЕУ;207;40;10",            
-  "КНЕУ;211;20;5",                   
-  "КНУ;204;10;5",                                                                                    
-  "КНТЕУ;206;30;5",                                                                                        
-  "КНЕУ;210;50;3",                   
-  "КНУ;212;60;4",
-  "КНТЕУ;213;70;5",
-    ]
+    # накопичувач магазинiв
+    dovidnik_list = []
 
-    dovidnik1_list = []
-
-  for line = from_file:
-      line_list = line.split(";") 
-      dovidnik1_list.append((line_list))
-
-    ]
-    return from_dovidnik1
-
-def get_dovidnik2():
-                                                                                 
-    
-    from_dovidnik2 = [
-     "10;План розрахунків  бухгалтерського обліку підприємств;40" , 
-     "20;ППП УЗПИКС;900",
-     "30;ППП УТЕП;900",
-     "40;ППП УОС;600",
-     "50;ППП УФРО;1245",
-     "60;АРМ бухгалтера матеріально-технічного відділу відділу;500", 
-     "70;АРМ бухгалтера фінансового відділу;500" ,
-     "80;ППП Облік договорів;150", 
-
-    ]
-    return from_dovidnik2
-
-def get_dovidnik3():
-    
-    from_dovidnik3 = [
-                                                                                      "Таблиця 3",
-
-"АРМ бухгалтера фінансового відділу;212;КНУ;4;50;200",
-"АРМ бухгалтера матеріально-технічного відділу;213;КНТЕУ;5;500;2500",
-"План рахунків бухгалтерського обліку підприємств;202;КНТЕУ;10;40;400",
-"План рахунків бухгалтерського обліку підприємств;204;КНУ;5;40;200",
-"ППП УФРО;210;КНЕУ;3;124;372"
-    ]
-    
-    return from_dovidnik3
+    for line in from_file:
+        line_list = line.split(';')
+        dovidnik_list.append(line_list)
+    return dovidnik_list
 
 def get_orders():
-    pass
+    """ повертає вміст файла 'orders.txt` у вигляді списка
+    """
+    with open('./data/orders.txt', encoding="utf8") as orders_file:
+        from_file = orders_file.readlines()
 
-dovidnik1_list = get_dovidnik1()
-dovidnik2_list = get_dovidnik2()
-dovidnik3_list = get_dovidnik3()
+    orders_list = []
 
-for x in dovidnik1_list:
-    print(x)
-for y in dovidnik2_list:
-    print(y)
-for z in dovidnik3_list:
-    print(z)
+    for line in from_file:
+        line_list = line.split()
+        line_list[2] = line_list[2][:-1]
+        orders_list.append(line_list)
+
+def show_dovidnik(dovidnik):
+    # задати інтервал виводу
+    dovidnik_code_from = input("З якого кода довідника? ")
+    dovidnik_code_to   = input("По який код довідника? ")
+
+    # накопичує кількість виведених рядків
+    kol_lines = 0
+
+    for dovidnik in dovidnik:
+        if dovidnik_code_from <= dovidnik[0] <= dovidnik_code_to:
+            print("код: {:3} назва: {:16} вартість {:20}".format(dovidnik[0], dovidnik[1], dovidnik[2]))
+            kol_lines += 1
+
+    # перевірити чи був вивід хоча б одного рядка
+    if kol_lines == 0:
+        print("По вашому запиту довідників не знайдено")
+
+dovidnik = get_dovidnik()
+show_dovidnik(dovidnik)
