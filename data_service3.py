@@ -17,6 +17,13 @@ def get_dovidnik1():
   "КНЕУ;210;50;3",                   
   "КНУ;212;60;4",
   "КНТЕУ;213;70;5",
+    ]
+
+    dovidnik1_list = []
+
+  for line = from_file:
+      line_list = line.split(";") 
+      dovidnik1_list.append((line_list))
 
     ]
     return from_dovidnik1

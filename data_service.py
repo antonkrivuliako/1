@@ -8,6 +8,22 @@ def get_dovidnik():
  	Returns:
         'from_file' - список рядків файла
     """
+
+
+    with open('D:\ICS-111111\data\dovidnik') as dovidnik_list:
+        from_file = dovidnik_file.readlines()
+          
+    # накопичувач клієнтів
+    dovidnik_list = []
+
+    for line in from_file:
+        line_list = line.split(';')
+        dovidnik_list.append((line_list))
+
+    return dovidnik_list
+
+def get_orders():
+
     from_file = [
      
      "10;План розрахунків  бухгалтерського обліку підприємств;40" , 
