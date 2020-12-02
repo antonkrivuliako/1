@@ -5,22 +5,23 @@
 """модуль зчитує первинні файли для обробки
 """
 
-def get_clients():
-    """повертає список клієнтів b з файла `clients.txt`
+
+def get_dovidniks():
+    """повертає список клієнтів b з файла `dovidniks.txt`
 
     Returns:
-        clients_list: список клієнтів
+        dovidniks_list: список клієнтів
     """
 
-    with open("./data/clients.txt") as clients_file:
-        from_file = clients_file.readlines()
+    with open('./data/dovidniks.txt', encoding="utf8") as dovidniks_file:
+        from_file = dovidniks_file.readlines()
 
-    clients_list = []
+    dovidniks_list = []
     for line in from_file:
         line_list = line.split(';')
-        clients_list.append(line_list)
+        dovidniks_list.append(line_list)
 
-    return clients_list
+    return dovidniks_list
 
 
 def get_orders():
@@ -29,16 +30,15 @@ def get_orders():
     Returns:
         from_file: список накладних
     """
-    
-    with open('./data/orders.txt') as orders_file:
+
+    with open('./data/orders.txt', encoding="utf8") as orders_file:
         from_file = orders_file.readlines()
 
-    
     # розбити строку на реквізити та перетворити формати (при потребі)
-    
+
     # список-накопичувач
-    orders_list = []    
-    
+    orders_list = []
+
     for line in from_file:
         line_list = line.split(';')
         line_list[3] = int(line_list[3])
@@ -48,26 +48,26 @@ def get_orders():
     return orders_list
 
 
-def show_clients(clients):
+def show_dovidniks(dovidniks):
     """виводить список клієнтів по заданому інтервалу кодів
 
     Args:
-        clients (list): список клієнтів
+        dovidniks (list): список клієнтів
     """
 
     # задати інтервал виводу
-    client_code_from = input("З якого кода клієнта? ")
-    client_code_to   = input("По який кода клієнта? ")
+    dovidnik_code_from = input("З якого кода довідника? ")
+    dovidnik_code_to = input("По який код довідника? ")
 
     lines_found = 0
 
-    for client in clients:
-        if client_code_from <= client[0] <= client_code_to:
-            print ("код: {:5} назва: {:15} адреса: {:25}".format(*client))
+    for dovidnik in dovidniks:
+        if dovidnik_code_from <= dovidnik[0] <= dovidnik_code_to:
+            print("код: {:5} назва: {:15} адреса: {:25}".format(*dovidnik))
             lines_found += 1
 
     if lines_found == 0:
-        print("Клієнтів по Вашому запиту не знайдено") 
+        print("Клієнтів по Вашому запиту не знайдено")
 
 
 def show_orders(orders):
@@ -78,13 +78,11 @@ def show_orders(orders):
     """
 
     for order in orders:
-        print("код клієнта: {:3} накладна № {:4} товар: {:20} кількість: {:3} ціна: {:7}"
-            .format(order[0], order[1], order[2], order[3], order[4]))
+        print("код клієнта: {:3} номер заказу {:4} код товару: {:20} кількість: {:3}"
+              .format(order[0], order[1], order[2], order[3]))
 
 # clients = get_clients()
 # show_clients(clients)
 
-# orders= get_orders()
+# orders = get_orders()
 # show_orders(orders)
-
-
