@@ -1,50 +1,103 @@
-""" модуль для отримання даних про постачання та вивід їх на екран
+""" Модуль для отримання даних про замовлення літератури та вивід їх на екран
 """
 
-def get_dovidnik():
-    """ повертає вміст файла 'dovidnik.txt` у вигляді списка
+def get_order():
+    """ Повертає вміст файла "orders.txt" у вигляді списка
+    Returns:
+        order_list - список рядків файла
     """
 
-    with open('./data/dovidnik.txt', encoding="utf8") as dovidnik_file:
-        from_file = dovidnik_file.readlines()
+    with open('./data/orders.txt', encoding="utf8") as order_file:
+        order_list = order_file.readlines()
 
-    # накопичувач магазинiв
-    dovidnik_list = []
+    # Накопичувач замовлень
+    order_drive = []
 
-    for line in from_file:
+    for line in order_list:
         line_list = line.split(';')
-        dovidnik_list.append(line_list)
-    return dovidnik_list
+        line_list[3] = line_list[3][:-1]  # Видаляє '\n' в кінці
+        order_drive.append(line_list)
 
-def get_orders():
-    """ повертає вміст файла 'orders.txt` у вигляді списка
+
+    return order_drive
+
+
+def show_orders(orders):
+    """ Виводить список замовлень
+
+    Args:
+        orders (list): список замовлень
     """
-    with open('./data/orders.txt', encoding="utf8") as orders_file:
-        from_file = orders_file.readlines()
 
-    orders_list = []
+    # Задати інтервал виводу
+    order_code_from = input("З якого кода товару виводити? ")
+    order_code_to = input("По який код товару виводити? ")
 
-    for line in from_file:
-        line_list = line.split()
-        line_list[2] = line_list[2][:-1]
-        orders_list.append(line_list)
-
-def show_dovidnik(dovidnik):
-    # задати інтервал виводу
-    dovidnik_code_from = input("З якого кода довідника? ")
-    dovidnik_code_to   = input("По який код довідника? ")
-
-    # накопичує кількість виведених рядків
+    # Накопичує кількість виведених рядків
     kol_lines = 0
 
-    for dovidnik in dovidnik:
-        if dovidnik_code_from <= dovidnik[0] <= dovidnik_code_to:
-            print("код: {:3} назва: {:16} вартість {:20}".format(dovidnik[0], dovidnik[1], dovidnik[2]))
+
+    for order in orders:
+        if order_code_from <= order[0] <= order_code_to:
+            print("Код: {:4}  Клієнт: {:7} Номер заказу: {:5}  Кількість: {:4}".format(order[0], order[1], order[2], order[3]))
             kol_lines += 1
 
-    # перевірити чи був вивід хоча б одного рядка
+    # Перевірити чи був вивід хочаб одного рядка
     if kol_lines == 0:
-        print("По вашому запиту довідників не знайдено")
+        print("По Вашому запиту руху засобів нічого не знайдено.")
 
-dovidnik = get_dovidnik()
-show_dovidnik(dovidnik)
+
+# orders = get_order()
+# show_orders(orders)
+
+
+
+def get_dovidnik():
+    """ Повертає вміст файла "dovidniks.txt" у вигляді списка
+
+    Returns:
+        dovidnik_list - список рядків файла
+    """
+
+    with open('./data/dovidniks.txt', encoding="utf8") as dovidnik_file:
+        dovidnik_list = dovidnik_file.readlines()
+
+    # Накопичувач довідника основних засобів
+    dovidnik_drive = []
+
+    for line in dovidnik_list:
+        line_list = line.split(';')
+        line_list[2] = line_list[2][:-1]  # Видаляє '\n' в кінці
+        dovidnik_drive.append(line_list)
+
+
+    return dovidnik_drive
+
+
+def show_dovidniks(dovidniks):
+    """ Виводить список довідника
+
+    Args:
+        dovidniks (list): список довідника
+    """
+
+    # Задати інтервал виводу
+    dovidnik_code_from = input("З якого кода довідника виводити? ")
+    dovidnik_code_to = input("По який код довідника виводити? ")
+
+    # Накопичує кількість виведених рядків
+    kol_lines = 0
+
+
+    for dovidnik in dovidniks:
+        if dovidnik_code_from <= dovidnik[0] <= dovidnik_code_to:
+            print("Код: {:4} Найменування: {:53} Ціна: {:6}".format(dovidnik[0], dovidnik[1], dovidnik[2]))
+            kol_lines += 1
+
+    # Перевірити чи був вивід хочаб одного рядка
+    if kol_lines == 0:
+        print("По Вашому запиту довідникіка нічого не знайдено.")
+
+
+# dovidniks = get_dovidnik()
+# show_dovidniks(dovidniks)
